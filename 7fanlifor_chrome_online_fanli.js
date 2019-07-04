@@ -1,8 +1,8 @@
 (function() {
 
     window.onload = function() {
-        var v = "4.3.5";
-        var loginUrl = "http://www.7fanli.com/seven/auth/isLogin"; //登陆状态
+        var v = "4.2.5";
+        var loginUrl = "http://tk.7fanli.com:8080/Seven/fanli/isLogined.do"; //登陆状态
         // var getAuctionDetailUrl = "https://pub.alimama.com/items/search.json?toPage=1&perPagesize=40&q=http://item.taobao.com/item.htm"; //查询商品返利信息
         var getShopDetailUrl = "https://api.tk.7fanli.com/getShopCode"; //查询店铺返利信息
         var getTaokeApi = "https://api.tk.7fanli.com/getTkdata";
@@ -13,11 +13,11 @@
         //var getItemUrl = "https://api.tk.7fanli.com/v2/getItem"; //查询商品返利金 比率 券     参数：商品id和channelid=0
         var getItemUrl = "http://120.27.140.213:8888/sevenTransfer/transfer.do"; //新转链接口 平台淘宝
         var jd_getItemUrl = "http://120.27.140.213:8888/sevenjdTransfer/transfer.do"; //转链接口 平台京东
-        var Qccode = "http://www.7fanli.com/seven/share/getPcItemQr"; //返利二维码
-        var collecturl = "http://www.7fanli.com/seven/store/addStoreAuction"; //收藏商品
+        var Qccode = "http://tk.7fanli.com:8080/Seven/fanli/getPcQr.do"; //返利二维码
+        var collecturl = "http://tk.7fanli.com:8080/Seven/al/addStoreAuction.do"; //收藏商品
         var deletecollecturl = "http://tk.7fanli.com:8080/Seven/al/deleteStoreAuction.do" //删除商品,没用
-        var verifyCollection = "http://www.7fanli.com/seven/store/isStored"; //验证是否收藏了该商品
-        var fanlisetting = "http://www.7fanli.com/setting.html";//插件设置页面
+        var verifyCollection = "http://tk.7fanli.com:8080/Seven/al/isStored.do"; //验证是否收藏了该商品
+
 
         var postTtemResItemId = "";
         var item_show_rate = "";
@@ -518,7 +518,7 @@
                         console.log("收藏");
                         if (isPlatform) {
                             sendMes(function(res) {
-                                if (res.success) {
+                                if (res.ok) {
                                     document.getElementById("div_off").classList.add("off");
                                     document.getElementById("div_off").addEventListener("animationend", function() {
                                         iscollectshop(data);
@@ -527,7 +527,7 @@
                             }, collecturl + "?auctionid=" + itemId + "&transferTo=1", "");
                         } else {
                             sendMes(function(res) {
-                                if (res.success) {
+                                if (res.ok) {
                                     document.getElementById("div_off").classList.add("off");
                                     document.getElementById("div_off").addEventListener("animationend", function() {
                                         iscollectshop(data);
@@ -1087,8 +1087,8 @@
         function QR_code(data) {
             if (isPlatform) {
                 sendMes(function(res) {
-                    if (res.data != "") {
-                        Qc_url = res.data;
+                    if (res.ticket != "") {
+                        Qc_url = res.ticket;
                     } else {
                         Qc_url = "http://www.7fanli.com/jiazaisb.jpg";
                     }
@@ -1096,8 +1096,8 @@
                 }, Qccode + "?itemId=" + itemId, "");
             } else {
                 sendMes(function(res) {
-                    if (res.data != "") {
-                        Qc_url = res.data;
+                    if (res.ticket != "") {
+                        Qc_url = res.ticket;
                     } else {
                         Qc_url = "http://www.7fanli.com/jiazaisb.jpg";
                     }
@@ -1115,7 +1115,7 @@
         function iscollectshop(data) {
             //验证收藏
             sendMes(function(res) {
-                iscollect = res.success;
+                iscollect = res.isStored;
                 sayMes("congratulations", iscollect, data);
             }, verifyCollection + "?auctionid=" + itemId, "");
         }
@@ -1167,14 +1167,14 @@
 
         function chkLogin(data) {
 
-            newMid = data.data.mid;
+            newMid = data.mid;
             for (var i = 0; i < newMid.length; i++) {
                 if (location.href.indexOf("ali_trackid=2:mm_" + newMid[i]) != -1 || location.href.indexOf("ali_trackid=2%3Amm_" + newMid[i]) != -1 || location.href.indexOf("&utm_campaign=") != -1) {
                     ali_trackid_mid = true;
                 }
             }
 
-            if (null == data || data.success == false) {
+            if (null == data || data.flag == false) {
 
                 //无法正常返利.未开通淘宝客
                 // sayMes("logmm", "");
@@ -1182,7 +1182,7 @@
             } else {
 
                 isLogin = true;
-                userName = data.data.userName;
+                userName = data.userName;
             }
             getFanliInfo();
             //getTaskItemId();
@@ -1216,8 +1216,7 @@
                 trends_dom.style.cssText = css_1.join("");
                 var taoke_content = document.createElement("div");
                 taoke_content.id = "taoke_content";
-                // taoke_content.innerHTML = '<ul id="ul_off" style="background:url(https://img.alicdn.com/imgextra/i4/380087440/TB2nsaThXXXXXcxXXXXXXXXXXXX-380087440.png) 20px 10px no-repeat;height:100px;position:relative;"><div id="div_off" style="position:absolute;"></div>' + '<li style="margin-top:20px;"><a id="qifanli_logo" href="https://7fanli.com" target="_blank"></a></li>' + '<li style="float:left;height:40px;width:1px;background-color:#e9e9e9;margin-top:17px;margin-left:80px;"></li>' + '<li id="tc_left" style="float:left;height:70px;display:flex;align-items:center;"><img src="https://img.alicdn.com/imgextra/i2/201544069/TB2eZ47XPS_LeJjSZFxXXaP8XXa-201544069.gif" height="70" width="70" style="margin-top:-20px"/></li>' + '<li id="tc_gf_cont" style="float:left"></li>' + '<li id="tc_jfb_cont" style="float:left;margin-top:23px;"></li>' + '<li style="float:left;height:48px;width:1px;margin-top:10px;"></li>' + '<li id="tc_btn" style="float:left"><a href="' + loginLocUrl + '?v=' + v + '" style="' + setout + '" onmouseout="this.style.cssText=\'' + setout + '\'" onmouseover="this.style.cssText=\'' + setout + '\'" target="_blank"></a></li><a href="#" target="_blank"><img class="AD" style="width:90px;height:90px;" src="http://www.7fanli.com/guanggao.jpg" /></a></li>' + '</ul>' + '<div style="clear:both;"></div>'; //<a href="https://tbvr.ews.m.jaeapp.com/vr/11-11/#/selected"><img class="AD" style="width:100px;height:83px;" src="http://www.7fanli.com/guanggao.jpg" /></a></li>
-                taoke_content.innerHTML = '<ul id="ul_off" style="background:url(https://img.alicdn.com/imgextra/i4/380087440/TB2nsaThXXXXXcxXXXXXXXXXXXX-380087440.png) 20px 10px no-repeat;height:100px;position:relative;"><div id="div_off" style="position:absolute;"></div>' + '<li style="margin-top:20px;"><a id="qifanli_logo" href="https://7fanli.com" target="_blank"></a></li>' + '<li style="float:left;height:40px;width:1px;background-color:#e9e9e9;margin-top:17px;margin-left:80px;"></li>' + '<li id="tc_left" style="float:left;height:70px;display:flex;align-items:center;"><img src="https://img.alicdn.com/imgextra/i2/201544069/TB2eZ47XPS_LeJjSZFxXXaP8XXa-201544069.gif" height="70" width="70" style="margin-top:-20px"/></li>' + '<li id="tc_gf_cont" style="float:left"></li>' + '<li id="tc_jfb_cont" style="float:left;margin-top:23px;"></li>' + '<li style="float:left;height:48px;width:1px;margin-top:10px;"></li>' + '<li id="tc_btn" style="float:left"><a href="' + fanlisetting + '?v=' + v + '" style="' + setout + '" onmouseout="this.style.cssText=\'' + setout + '\'" onmouseover="this.style.cssText=\'' + setout + '\'" target="_blank"></a></li><a href="#" target="_blank"><img class="AD" style="width:90px;height:90px;" src="http://www.7fanli.com/guanggao.jpg" /></a></li>' + '</ul>' + '<div style="clear:both;"></div>'; //<a href="https://tbvr.ews.m.jaeapp.com/vr/11-11/#/selected"><img class="AD" style="width:100px;height:83px;" src="http://www.7fanli.com/guanggao.jpg" /></a></li>
+                taoke_content.innerHTML = '<ul id="ul_off" style="background:url(https://img.alicdn.com/imgextra/i4/380087440/TB2nsaThXXXXXcxXXXXXXXXXXXX-380087440.png) 20px 10px no-repeat;height:100px;position:relative;"><div id="div_off" style="position:absolute;"></div>' + '<li style="margin-top:20px;"><a id="qifanli_logo" href="https://7fanli.com" target="_blank"></a></li>' + '<li id="tc_left" style="float:left;height:70px;display:flex;align-items:center;"><img src="https://img.alicdn.com/imgextra/i2/201544069/TB2eZ47XPS_LeJjSZFxXXaP8XXa-201544069.gif" height="70" width="70" style="margin-top:-20px"/></li>' + '<li id="tc_gf_cont" style="float:left"></li>' + '<li id="tc_jfb_cont" style="float:left;margin-top:23px;"></li>' + '<li style="float:left;height:48px;width:1px;margin-top:10px;"></li>' + '<li id="tc_btn" style="float:left"><a href="' + loginLocUrl + '?v=' + v + '" style="' + setout + '" onmouseout="this.style.cssText=\'' + setout + '\'" onmouseover="this.style.cssText=\'' + setout + '\'" ' + '</ul>' + '<div style="clear:both;"></div>'; 
                 trends_dom.appendChild(taoke_content);
                 document.body.insertBefore(trends_dom, document.body.lastChild);
                 let style_off = document.createElement("style");
@@ -1245,7 +1244,7 @@
 
                 taoke_content_m.id = "taoke_content_m";
 
-                taoke_content_m.innerHTML = '<ul style="width:70px;padding-bottom:20px;">' + '<li style="background: url(https://img.alicdn.com/imgextra/i4/380087440/TB2nsaThXXXXXcxXXXXXXXXXXXX-380087440.png) no-repeat;width: 50px;height: 50px;margin-left: 10px;margin-top: 10px;"><a id="qifanli_logo" style="display:block;width:50px;height:50px;" href="https://7fanli.com" target="_blank"></a></li>' + '<li style="height:1px;background:#e9e9e9;width:28px;margin-left:21px;margin-top:20px;margin-bottom:20px;"></li>' + '<li id="tc_left_m" style="width:14px;line-height:14px;"></li>' + '<li id="tc_jfb_cont_m" style="width:14px;line-height:14px;"></li>' + '<li id="tc_share_cont_m"></li>' + '<li id="tc_add_m"></li>' + '<li style="width:48px;height:1px;background-color:#e9e9e9;margin-top:20px;margin-left:10px;"></li>' + '<li></li>' + '<li id="tc_btn_m"><a href="' + loginLocUrl + '?v=' + v + '" style="' + setout_2 + '" onmouseout="this.style.cssText=\'' + setout_2 + '\'" onmouseover="this.style.cssText=\'' + setover_2 + '\'" target="_blank"></a></li>' + '</ul>' + '<div style="clear:both;"></div>';
+                taoke_content_m.innerHTML = '<ul style="width:70px;padding-bottom:20px;">' + '<li style="background: url(https://img.alicdn.com/imgextra/i4/380087440/TB2nsaThXXXXXcxXXXXXXXXXXXX-380087440.png) no-repeat;width: 50px;height: 50px;margin-left: 10px;margin-top: 10px;"><a id="qifanli_logo" style="display:block;width:50px;height:50px;" href="https://7fanli.com" target="_blank"></a></li>' + '' + '<li id="tc_left_m" style="width:14px;line-height:14px;"></li>' + '<li id="tc_jfb_cont_m" style="width:14px;line-height:14px;"></li>' + '<li id="tc_share_cont_m"></li>' + '<li id="tc_add_m"></li>' + '' + '<li></li>' + '<li id="tc_btn_m"><a href="' + loginLocUrl + '?v=' + v + '" style="' + setout_2 + '" onmouseout="this.style.cssText=\'' + setout_2 + '\'" onmouseover="this.style.cssText=\'' + setover_2 + '\'" target="_blank"></a></li>' + '</ul>' + '<div style="clear:both;"></div>';
                 trends_dom_m.appendChild(taoke_content_m);
                 document.body.insertBefore(trends_dom_m, document.body.lastChild);
             } else if (pos == "mtop") {
