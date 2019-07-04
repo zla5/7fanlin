@@ -1212,7 +1212,7 @@
                 var trends_dom = document.createElement('div');
                 trends_dom.id = "taoke_dialog";
                 var fixpos = (pos == "leftb" ? 'left:0px;' : 'right:0px;');
-                var css_1 = ['height:75px;', 'border:1px solid #d2d2d2;', 'position:fixed;', fixpos, 'bottom:0;', 'z-index:2147483647;', 'color:#fff;', 'text-align:left;', 'background-color:#fff;', 'background-repeat:repeat-x;', 'color:#666666'];
+                var css_1 = ['height:80px;', 'border:1px solid #d2d2d2;', 'position:fixed;', fixpos, 'bottom:0;', 'z-index:2147483647;', 'color:#fff;', 'text-align:left;', 'background-color:#fff;', 'background-repeat:repeat-x;', 'color:#666666'];
                 trends_dom.style.cssText = css_1.join("");
                 var taoke_content = document.createElement("div");
                 taoke_content.id = "taoke_content";
