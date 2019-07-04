@@ -453,7 +453,7 @@
             }
 
             //var fanliout = "padding-right:20px;padding-left:20px;font-size:14px;color:#fff;background:#4daa00;display:inline-block;height:30px;line-height:30px;border-radius:2px;text-decoration: none;";
-            var fanliout = "width:90px;height:90px;position:absolute;top:-20px;";
+            var fanliout = "width:65px;height:65px;";
             var fanliover = "padding-right:20px;padding-left:20px;font-size:14px;color:#fff;background:#57c000;display:inline-block;height:30px;line-height:30px;border-radius:2px;text-decoration: none;";
             var fanliouty = "padding-right:20px;padding-left:20px;font-size:14px;color:#fff;background:#ff7e00;display:inline-block;height:30px;line-height:30px;border-radius:2px;text-decoration: none;";
             var fanliovery = "padding-right:20px;padding-left:20px;font-size:14px;color:#fff;background:#ff9c00;display:inline-block;height:30px;line-height:30px;border-radius:2px;text-decoration: none;";
