@@ -477,8 +477,8 @@
             var link_dom = document.createElement("span");
             var link_dom_m = document.createElement("span");
             if (Qc_url != "") {
-                link_dom.style.cssText = "display: inline-block;width:90px;";
-                link_dom_m.style.cssText = "display: inline-block;width:90px;";
+                link_dom.style.cssText = "display: inline-block;width:70px;";
+                link_dom_m.style.cssText = "display: inline-block;width:70px;";
             } else {
                 link_dom.style.cssText = "display: inline-block;width:0px;";
                 link_dom_m.style.cssText = "display: inline-block;width:0px;";
